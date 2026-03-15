@@ -1,5 +1,5 @@
 include(":app-starter")
-//include (":app-finished")
+include(":app-finished")
 rootProject.name = "android-work-profile"
 
 pluginManagement {
