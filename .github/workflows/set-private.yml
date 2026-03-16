@@ -1,0 +1,21 @@
+name: Set Repository to Private
+
+on:
+  workflow_dispatch:
+
+jobs:
+  set-private:
+    runs-on: ubuntu-latest
+    permissions:
+      administration: write
+
+    steps:
+      - name: Set repository to private
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          gh api \
+            --method PATCH \
+            -H "Accept: application/vnd.github+json" \
+            /repos/${{ github.repository }} \
+            -f private=true

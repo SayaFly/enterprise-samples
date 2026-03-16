@@ -3,6 +3,8 @@ name: Build Android APK
 on:
   push:
     branches: [ main ]
+  pull_request:
+    branches: [ main ]
   workflow_dispatch:
 
 concurrency:
@@ -41,12 +43,14 @@ jobs:
           path: Work-profile-codelab/app-finished/build/outputs/apk/debug/*.apk
 
       - name: Copy APK to releases folder
+        if: github.event_name != 'pull_request'
         run: |
           mkdir -p releases
           APK=$(find Work-profile-codelab/app-finished/build/outputs/apk/debug -name "*.apk" | head -n 1)
           cp "$APK" releases/work-profile-app.apk
 
       - name: Commit APK to repository
+        if: github.event_name != 'pull_request'
         run: |
           git config --local user.email "github-actions[bot]@users.noreply.github.com"
           git config --local user.name "github-actions[bot]"
